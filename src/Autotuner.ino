@@ -97,7 +97,7 @@ void loop() {
       setRelays17Meter(); // 17 meter
       break;
     case 2:
-      setRelays20Meter();
+      setRelays20Meter(); // 20 meter
       break;
     case 3:
       setRelays30Meter();
