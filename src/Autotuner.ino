@@ -73,7 +73,7 @@ void setup() {
 
 void loop() {
   //Temporary
-//  test();
+ // test();
 
   swrCalc();    // compute SWR
 
@@ -107,8 +107,11 @@ void loop() {
       break;
   }
 
+
+// Manual tuning
   if(m_SWR >= 2) {
-    if (digitalRead(tunePin) == LOW || (m_SWR >= 2)) {
+    // if (digitalRead(tunePin) == LOW || (m_SWR >= 2)) {
+    if (digitalRead(tunePin) == LOW ) {
       digitalWrite(powerRelayPin, LOW);
       delay(20);
       lcd.clear();
@@ -157,14 +160,15 @@ void tuning(int startPosition, int endPosition, float endSwr){
 
     Serial.print(m_SWR);
 
-    if(m_SWR >= 2.5){
+    if(m_SWR >= 3.5){
       delay(1);
-    } else if(m_SWR < 2.5){
+    } else if(m_SWR < 3.5){
       delay(200);
     }
 
     if(m_SWR < endSwr){
       bestServoPos = pos;
+      digitalWrite(powerRelayPin, HIGH);
       break;
     }
   }
@@ -256,7 +260,7 @@ void setRelaysAutomaticMeter(){
       delay(10);
       digitalWrite(powerRelayPin, LOW);
       delay(20);
-      tuning(1040, 1200, 1.3);
+      tuning(1040, 1200, 1.5);
       digitalWrite(powerRelayPin, HIGH);
 
       if(m_SWR >= 2){
@@ -285,7 +289,7 @@ void setRelaysAutomaticMeter(){
       delay(10);
       digitalWrite(powerRelayPin, LOW);
       delay(20);
-      tuning(1350, 1500, 1.7);
+      tuning(1350, 1500, 1.5);
       digitalWrite(powerRelayPin, HIGH);
 
       if(m_SWR >= 2){
@@ -300,7 +304,7 @@ void setRelaysAutomaticMeter(){
       delay(10);
       digitalWrite(powerRelayPin, LOW);
       delay(20);
-      tuning(1410, 1570, 1.6);
+      tuning(1410, 1570, 1.5);
       digitalWrite(powerRelayPin, HIGH);
 
       if(m_SWR >= 2){
@@ -315,7 +319,7 @@ void setRelaysAutomaticMeter(){
       delay(10);
       digitalWrite(powerRelayPin, LOW);
       delay(20);
-      tuning(1000, 1700, 1.3);
+      tuning(1000, 1700, 1.2);
       digitalWrite(powerRelayPin, HIGH);
 
       if(m_SWR >= 2){
@@ -385,8 +389,8 @@ void swrCalc() {
 
 // TEMPORARY
 
-//void test(){
-//  // displaying forward and reflected signal
+// void test(){
+ // displaying forward and reflected signal
 //  reflection = analogRead(refPin);
 //  temp_forward = analogRead(fwdPin);
 //    lcd.setCursor(0, 2);
@@ -410,7 +414,7 @@ void swrCalc() {
 //    lcd.setCursor(16, 2);
 //  }
 //  lcd.print(reflection);
-//}
+// }
 
 // This function is for displaying the results of the calculation.
 void displayResults(){
