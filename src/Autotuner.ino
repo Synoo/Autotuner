@@ -24,12 +24,10 @@ int bandChoicePin               = 8;          // Number of the band choise pin
 int twenty_BandPin              = 9;          // Number op relay pin for 20 meter band
 int thirty_BandPin              = 10;         // Number op relay pin for 30 meter band
 int forty_BandPin               = 11;         // Number op relay pin for 40 meter band
-int ServoAnt2Pin                = 12;         // Number of the Ant2 servo pin
 
 int bandChoiceButtonPushCounter = 5;          // counter for the number of button presses
 
 int bestServoPos                = 0;
-int totalRefl                   = 0;
 int refl                        = 0;
 int pos                         = 0;
 int bestRefl                    = 1023;
@@ -45,12 +43,11 @@ int currentBand = 0;
 
 float swr;
 float m_SWR;
-float test_forward;
+float temp_forward;
 float reflection;
 
 void setup() {
   pinMode(ServoAnt1Pin, OUTPUT);
-  pinMode(ServoAnt2Pin, OUTPUT);
   pinMode(powerRelayPin, OUTPUT);
   pinMode(twenty_BandPin, OUTPUT);
   pinMode(thirty_BandPin, OUTPUT);
@@ -337,20 +334,17 @@ void setRelaysAutomaticMeter(){
 
 void swrCalc() {
   float m_MaxSWR;
-  word m_MinPower;
-  float m_ScaleFWD, m_ScaleREF;     // scale factors
-  float m_AlphaFwd, m_AlphaRef;  // the smoothing constant
-  float p;
+  float m_MinPower;
+  float m_AlphaFwd, m_AlphaRef;     // the smoothing constant
   float wf;
 
   m_MaxSWR = 25.0;
   m_MinPower = 0;
-  m_ScaleFWD = m_ScaleREF = 1.0;
   m_AlphaFwd = 0.5;
   m_AlphaRef = 0.5;
 
   forward = (m_AlphaFwd * analogRead(fwdPin));       // read forward voltage
-  reflected = (m_AlphaRef * analogRead(refPin));   // read reverse voltage
+  reflected = (m_AlphaRef * analogRead(refPin));     // read reverse voltage
 
   if (reflected == 0 || forward < m_MinPower) {
     wf = 1.0;
@@ -394,17 +388,17 @@ void swrCalc() {
 //void test(){
 //  // displaying forward and reflected signal
 //  reflection = analogRead(refPin);
-//  test_forward = analogRead(fwdPin);
+//  temp_forward = analogRead(fwdPin);
 //    lcd.setCursor(0, 2);
 //    lcd.print("F = ");
-//    if(test_forward >= 10 && refl < 100){
+//    if(temp_forward >= 10 && refl < 100){
 //    lcd.setCursor(3, 2);
 //  } else {
 //    lcd.setCursor(4, 2);
 //    lcd.print(" ");
 //    lcd.setCursor(5, 2);
 //  }
-//    lcd.print(test_forward);
+//    lcd.print(temp_forward);
 //
 //    lcd.setCursor(10, 2);
 //    lcd.print("R =   ");
