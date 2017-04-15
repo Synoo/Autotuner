@@ -91,7 +91,7 @@ void loop() {
 
   switch(bandChoiceButtonPushCounter) {
     case 0:
-      setRelays15Meter();
+      setRelays15Meter(); // 15 meter
       break;
     case 1:
       setRelays17Meter();
