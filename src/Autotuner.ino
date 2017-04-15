@@ -1,6 +1,6 @@
-// AutoTuner V2.01
-// by Synoo a.k.a. Patrick Buijs(18-3-2017)
-// Modified by Arie Buijs (11-04-2017) (checked by Patrick Buijs)
+// Autotuner: https://github.com/Synoo/Autotuner/
+// Autotuner for magnetic loop antenna (PA1APW)
+// Website:  www.pa1apw.net
 
 #include <Servo.h>             // Servo library for the Servo motor
 #include <Wire.h>
