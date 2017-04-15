@@ -160,9 +160,9 @@ void tuning(int startPosition, int endPosition, float endSwr){
 
     Serial.print(m_SWR);
 
-    if(m_SWR >= 2){
+    if(m_SWR >= 2.5){
       delay(1);
-    } else if(m_SWR < 2){
+    } else if(m_SWR < 2.5){
       delay(200);
     }
 
