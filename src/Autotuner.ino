@@ -103,7 +103,7 @@ void loop() {
       setRelays30Meter(); // 30 meter
       break;
     case 4:
-      setRelays40Meter();
+      setRelays40Meter(); // 40 meter
       break;
     case 5:
       setRelaysAutomaticMeter();
