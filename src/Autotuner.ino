@@ -72,8 +72,8 @@ void setup() {
 }
 
 void loop() {
-  //Temporary
- // test();
+//Temporary
+// test();
 
   swrCalc();    // compute SWR
 
@@ -113,26 +113,26 @@ void loop() {
     // if (digitalRead(tunePin) == LOW || (m_SWR >= 2)) {
     if (digitalRead(tunePin) == LOW ) {
       digitalWrite(powerRelayPin, LOW);
-      delay(20);
+      delay(50);
       lcd.clear();
       lcd.setCursor(7, 2);
       lcd.print("TUNING");
 
       switch(bandChoiceButtonPushCounter) {
         case 0:
-          tuning(1040, 1200, 1.3);
+          tuning(1030, 1200, 1.15);              // Manual tuning 15 meter band
           break;
         case 1:
-          tuning(1350, 1500, 1.8);
+          tuning(1350, 1500, 1.3);              // Manual tuning 17 meter band
           break;
         case 2:
-          tuning(1350, 1500, 1.6);
+          tuning(1300, 1500, 1.2);              // Manual tuning 20 meter band
           break;
         case 3:
-          tuning(1410, 1570, 1.6);
+          tuning(1410, 1570, 1.7);              // Manual tuning 30 meter band
           break;
         case 4:
-          tuning(1200, 1700, 1.3);
+          tuning(1050, 1700, 1.05);  // Tuning 40 meter band
           break;
       }
 
@@ -158,7 +158,7 @@ void tuning(int startPosition, int endPosition, float endSwr){
     servo.writeMicroseconds(pos);
     swrCalc();
 
-    Serial.print(m_SWR);
+    // Serial.print(m_SWR);
 
     if(m_SWR >= 3.5){
       delay(1);
@@ -254,13 +254,13 @@ void setRelaysAutomaticMeter(){
 //  Serial.begin(9600);
 //  Serial.print("AUTOMATIC");
 
-  if(currentBand == 0){
+  if(currentBand == 0){                             // Auto tuning 15 meter band
     if(m_SWR >= 2){
       setRelays15Meter();
       delay(10);
       digitalWrite(powerRelayPin, LOW);
       delay(20);
-      tuning(1040, 1200, 1.5);
+      tuning(1030, 1200, 1.15);
       digitalWrite(powerRelayPin, HIGH);
 
       if(m_SWR >= 2){
@@ -268,13 +268,13 @@ void setRelaysAutomaticMeter(){
       }
     }
   }
-  if(currentBand == 1){
+  if(currentBand == 1){                             // Auto tuning 17 meter band
     if(m_SWR >= 2){
       setRelays17Meter();
       delay(10);
       digitalWrite(powerRelayPin, LOW);
       delay(20);
-      tuning(1350, 1500, 1.7);
+      tuning(1350, 1500, 1.3);
       digitalWrite(powerRelayPin, HIGH);
 
       if(m_SWR >= 2){
@@ -283,28 +283,28 @@ void setRelaysAutomaticMeter(){
     }
 
   }
-  if(currentBand == 2){
-    if(m_SWR >= 2){
+  if(currentBand == 2){                           // Auto tuning 20 meter band
+    if(m_SWR >= 1.5){
       setRelays20Meter();
       delay(10);
       digitalWrite(powerRelayPin, LOW);
       delay(20);
-      tuning(1350, 1500, 1.5);
+      tuning(1350, 1500, 1.2);
       digitalWrite(powerRelayPin, HIGH);
 
-      if(m_SWR >= 2){
+      if(m_SWR >= 1.5){
         currentBand += 1;
       }
     }
   }
 
-  if(currentBand == 3){
+  if(currentBand == 3){                           // Auto tuning 30 meter band
     if(m_SWR >= 2){
       setRelays30Meter();
       delay(10);
       digitalWrite(powerRelayPin, LOW);
       delay(20);
-      tuning(1410, 1570, 1.5);
+      tuning(1410, 1570, 1.7);
       digitalWrite(powerRelayPin, HIGH);
 
       if(m_SWR >= 2){
@@ -313,16 +313,16 @@ void setRelaysAutomaticMeter(){
     }
   }
 
-  if(currentBand == 4){
-    if(m_SWR >= 2){
+  if(currentBand == 4){                           // Auto tuning 40 meter band
+    if(m_SWR >= 1.2){
       setRelays40Meter();
-      delay(10);
+      delay(5);
       digitalWrite(powerRelayPin, LOW);
-      delay(20);
-      tuning(1000, 1700, 1.2);
+      delay(10);
+      tuning(1050, 1700, 1.05);
       digitalWrite(powerRelayPin, HIGH);
 
-      if(m_SWR >= 2){
+      if(m_SWR >= 1.2){
         currentBand += 1;
       }
     }
@@ -344,8 +344,8 @@ void swrCalc() {
 
   m_MaxSWR = 25.0;
   m_MinPower = 0;
-  m_AlphaFwd = 0.5;
-  m_AlphaRef = 0.5;
+  m_AlphaFwd = 1;
+  m_AlphaRef = 1;
 
   forward = (m_AlphaFwd * analogRead(fwdPin));       // read forward voltage
   reflected = (m_AlphaRef * analogRead(refPin));     // read reverse voltage
@@ -378,6 +378,7 @@ void swrCalc() {
     lcd.print(m_SWR);
     lcd.setCursor(6,3);
     lcd.print(String("            "));
+    delay(10);
   }
   if (m_SWR > 3.00){
     lcd.setCursor(6,3);
