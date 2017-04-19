@@ -129,7 +129,7 @@ void loop() {
           tuning(1300, 1500, 1.2);              // Manual tuning 20 meter band
           break;
         case 3:
-          tuning(1410, 1570, 1.7);              // Manual tuning 30 meter band
+          tuning(1410, 1570, 1.5);              // Manual tuning 30 meter band
           break;
         case 4:
           tuning(1050, 1700, 1.05);  // Tuning 40 meter band
@@ -178,6 +178,8 @@ void tuning(int startPosition, int endPosition, float endSwr){
 void defaultDisplay(){
   lcd.begin(20,4);
   lcd.backlight();
+  lcd.setCursor(6,2);
+  lcd.print("PA1APW");
 }
 
 // This fuction is for incrementing the servo pos by 1
@@ -304,7 +306,7 @@ void setRelaysAutomaticMeter(){
       delay(10);
       digitalWrite(powerRelayPin, LOW);
       delay(20);
-      tuning(1410, 1570, 1.7);
+      tuning(1410, 1570, 1.5);
       digitalWrite(powerRelayPin, HIGH);
 
       if(m_SWR >= 2){
@@ -316,7 +318,7 @@ void setRelaysAutomaticMeter(){
   if(currentBand == 4){                           // Auto tuning 40 meter band
     if(m_SWR >= 1.2){
       setRelays40Meter();
-      delay(5);
+      delay(2);
       digitalWrite(powerRelayPin, LOW);
       delay(10);
       tuning(1050, 1700, 1.05);
@@ -371,19 +373,19 @@ void swrCalc() {
   m_SWR = wf;
   if (m_SWR == 1.00){
     lcd.setCursor(0,3);
-    lcd.print(String("RX                "));
+    lcd.print(String("RX    "));
   }
   else {
     lcd.setCursor(0,3);
     lcd.print(m_SWR);
     lcd.setCursor(6,3);
-    lcd.print(String("            "));
+    lcd.print(String(" "));
     delay(10);
   }
-  if (m_SWR > 3.00){
-    lcd.setCursor(6,3);
-    lcd.print(String("! HIGH SWR !"));
-   }
+  // if (m_SWR > 3.00){
+  //   lcd.setCursor(6,3);
+  //   lcd.print(String("! HIGH SWR !"));
+  //  }
 }
 
 
