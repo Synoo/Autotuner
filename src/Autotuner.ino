@@ -27,9 +27,9 @@ int forty_BandPin               = 11;         // Number op relay pin for 40 mete
 
 int bandChoiceButtonPushCounter = 5;          // counter for the number of button presses
 
-int bestServoPos                = 0;
+int bestServoPos;
 int refl                        = 0;
-int pos                         = 0;
+int pos;
 int bestRefl                    = 1023;
 int buttonState                 = 0;
 int buttonIncrementState        = 0;
@@ -126,7 +126,7 @@ void loop() {
           tuning(1350, 1500, 1.3);              // Manual tuning 17 meter band
           break;
         case 2:
-          tuning(1300, 1500, 1.2);              // Manual tuning 20 meter band
+          tuning(1300, 1500, 1.3);              // Manual tuning 20 meter band
           break;
         case 3:
           tuning(1410, 1570, 1.5);              // Manual tuning 30 meter band
@@ -163,7 +163,7 @@ void tuning(int startPosition, int endPosition, float endSwr){
     if(m_SWR >= 3.5){
       delay(1);
     } else if(m_SWR < 3.5){
-      delay(200);
+      delay(300);
     }
 
     if(m_SWR < endSwr){
@@ -291,7 +291,7 @@ void setRelaysAutomaticMeter(){
       delay(10);
       digitalWrite(powerRelayPin, LOW);
       delay(20);
-      tuning(1350, 1500, 1.2);
+      tuning(1350, 1500, 1.3);
       digitalWrite(powerRelayPin, HIGH);
 
       if(m_SWR >= 1.5){
@@ -377,7 +377,7 @@ void swrCalc() {
   }
   else {
     lcd.setCursor(0,3);
-    lcd.print(m_SWR);
+    lcd.print(m_SWR,1);
     lcd.setCursor(6,3);
     lcd.print(String(" "));
     delay(10);
@@ -391,9 +391,8 @@ void swrCalc() {
 
 
 // TEMPORARY
-
+// displaying forward and reflected signal
 // void test(){
- // displaying forward and reflected signal
 //  reflection = analogRead(refPin);
 //  temp_forward = analogRead(fwdPin);
 //    lcd.setCursor(0, 2);
