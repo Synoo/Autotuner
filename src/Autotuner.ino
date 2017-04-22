@@ -29,7 +29,7 @@ int bandChoiceButtonPushCounter = 5;          // counter for the number of butto
 
 int bestServoPos;
 int refl                        = 0;
-int pos;
+int pos                         = 0;
 int bestRefl                    = 1023;
 int buttonState                 = 0;
 int buttonIncrementState        = 0;
@@ -186,22 +186,22 @@ void defaultDisplay(){
 void incrementBestServoPos(){
   bestServoPos += 3;
   setServoPosition();
-  delay(500);
+  delay(300);
 }
 
 // This fuction is for decrementing the servo pos by 1
 void decrementBestServoPos(){
   bestServoPos -= 3;
   setServoPosition();
-  delay(500);
+  delay(300);
 }
 
 // This function first activates the relays, then sets the servo position and then turns the relays off.
 void setServoPosition(){
   digitalWrite(powerRelayPin, LOW);
-  delay(100);
+  delay(50);
   servo.writeMicroseconds(bestServoPos);
-  delay(100);
+  delay(50);
   digitalWrite(powerRelayPin, HIGH);
 
   lcd.clear();
@@ -270,7 +270,7 @@ void setRelaysAutomaticMeter(){
       }
     }
   }
-  if(currentBand == 1){                             // Auto tuning 17 meter band
+  if(currentBand == 1){                            // Auto tuning 17 meter band
     if(m_SWR >= 2){
       setRelays17Meter();
       delay(10);
@@ -286,7 +286,7 @@ void setRelaysAutomaticMeter(){
 
   }
   if(currentBand == 2){                           // Auto tuning 20 meter band
-    if(m_SWR >= 1.5){
+    if(m_SWR >= 2){
       setRelays20Meter();
       delay(10);
       digitalWrite(powerRelayPin, LOW);
@@ -294,7 +294,7 @@ void setRelaysAutomaticMeter(){
       tuning(1350, 1500, 1.3);
       digitalWrite(powerRelayPin, HIGH);
 
-      if(m_SWR >= 1.5){
+      if(m_SWR >= 2){
         currentBand += 1;
       }
     }
@@ -382,10 +382,14 @@ void swrCalc() {
     lcd.print(String(" "));
     delay(10);
   }
-  // if (m_SWR > 3.00){
-  //   lcd.setCursor(6,3);
-  //   lcd.print(String("! HIGH SWR !"));
-  //  }
+  if (forward > 1021){
+    lcd.setCursor(10,0);
+    lcd.print(String("!F!"));
+   }
+  if (forward <= 1021){
+    lcd.setCursor(10,0);
+    lcd.print(String("   "));
+  }
 }
 
 
@@ -423,6 +427,6 @@ void displayResults(){
   lcd.clear();
 //  lcd.setCursor(0, 1);
 //  lcd.print("Position:");
-  lcd.setCursor(16, 0);
-  lcd.print(String(bestServoPos));
+  // lcd.setCursor(16, 0);
+  // lcd.print(String(bestServoPos));
 }
